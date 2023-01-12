@@ -24,6 +24,9 @@ import frc.robot.defaultconfigs.CTREConfigs;
  * the package after creating this project, you must also update the build.gradle file in the
  * project.
  */
+
+ //test commit
+ 
 public class Robot extends LoggedRobot {
   private Command m_autonomousCommand;
   public static CTREConfigs ctreConfigs;
@@ -103,7 +106,7 @@ public class Robot extends LoggedRobot {
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
   }
-
+  
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {}

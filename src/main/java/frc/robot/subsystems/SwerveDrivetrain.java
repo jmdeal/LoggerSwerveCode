@@ -216,19 +216,21 @@ public class SwerveDrivetrain extends SubsystemBase {
         
         m_swerveOdometry.update(getYaw(), getModulePositions());
 
-        gyroIO.updateInputs(gyroInputs);
-        Logger.getInstance().processInputs("Drive/Gyro", gyroInputs);
+        // gyroIO.updateInputs(gyroInputs);
+        // Logger.getInstance().processInputs("Drive/Gyro", gyroInputs);
 
-        for (int i = 0; i < 4; i++) {
-            moduleIOs[i].updateInputs(moduleInputs[i]);
-            Logger.getInstance().processInputs("Drive/Module" + Integer.toString(i),
-                moduleInputs[i]);
-        }
+        // for (int i = 0; i < 4; i++) {
+        //     moduleIOs[i].updateInputs(moduleInputs[i]);
+        //     Logger.getInstance().processInputs("Drive/Module" + Integer.toString(i),
+        //         moduleInputs[i]);
+        // }
 
         Logger.getInstance().recordOutput("Odometry/Robot", m_swerveOdometry.getPoseMeters());
         Logger.getInstance().recordOutput("Yaw/Robot", getAngle());
-
+        Logger.getInstance().recordOutput("Drive/Module1", m_swerveModules[0].getPosition().distanceMeters);
+         
         SmartDashboard.putNumber("Yaw", getAngle());
+
         // SmartDashboard.putNumber("pose x", getPose().getX());
         // SmartDashboard.putNumber("pose y", getPose().getY());
         // SmartDashboard.putNumber("pose rot", getPose().getRotation().getDegrees());

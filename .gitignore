@@ -163,3 +163,7 @@ bin/
 
 # Version file
 src/main/java/frc/robot/BuildConstants.java
+
+.idea/
+.vscode
+.DS_Store

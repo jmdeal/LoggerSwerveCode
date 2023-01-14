@@ -192,7 +192,6 @@ public class SwerveDrivetrain extends SubsystemBase {
 
     public void resetOdometry(Pose2d pose) {
         m_swerveOdometry.resetPosition(getYaw(), getModulePositions(), pose);
-        zeroGyro(pose.getRotation().getDegrees());
     }
 
     // public void resetOdometryWithYaw(Pose2d pose, Rotation2d degrees) {

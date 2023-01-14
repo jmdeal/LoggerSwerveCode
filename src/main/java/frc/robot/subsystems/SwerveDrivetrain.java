@@ -49,12 +49,14 @@ public class SwerveDrivetrain extends SubsystemBase {
     public SwerveDrivetrain(GyroIO gyroIO, SwerveModuleIO flModuleIO, SwerveModuleIO frModuleIO,
                             SwerveModuleIO blModuleIO, SwerveModuleIO brModuleIO){
         m_pigeonGyro = new Pigeon2(SwerveDrivetrainConstants.PIGEON_ID);
-        
+        // m_pigeonGyro.setYaw(0);
+
         this.gyroIO = gyroIO;
         moduleIOs[0] = flModuleIO;
         moduleIOs[1] = frModuleIO;
         moduleIOs[2] = blModuleIO;
         moduleIOs[3] = brModuleIO;
+        
         
         driveKp.initDefault(SwerveDrivetrainConstants.DRIVE_P);
         driveKd.initDefault(SwerveDrivetrainConstants.DRIVE_D);
@@ -220,7 +222,9 @@ public class SwerveDrivetrain extends SubsystemBase {
         }
 
         Logger.getInstance().recordOutput("Odometry/Robot", m_swerveOdometry.getPoseMeters());
-        
+        Logger.getInstance().recordOutput("Yaw/Robot", getAngle());
+
+        SmartDashboard.putNumber("Yaw", getAngle());
         // SmartDashboard.putNumber("pose x", getPose().getX());
         // SmartDashboard.putNumber("pose y", getPose().getY());
         // SmartDashboard.putNumber("pose rot", getPose().getRotation().getDegrees());

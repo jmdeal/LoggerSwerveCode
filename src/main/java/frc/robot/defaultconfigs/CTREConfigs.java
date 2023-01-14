@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoderConfiguration;
+import com.ctre.phoenix.sensors.Pigeon2Configuration;
 import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.ctre.phoenix.sensors.SensorTimeBase;
 
@@ -12,7 +13,7 @@ import frc.robot.Constants.SwerveDrivetrainConstants;
 public class CTREConfigs {
     public TalonFXConfiguration driveMotorConfig, angleMotorConfig;
     public CANCoderConfiguration canCoderConfig;
-
+    // public Pigeon2Configuration pigeon2Configuration;
     public CTREConfigs(){
         driveMotorConfig = new TalonFXConfiguration();
         angleMotorConfig = new TalonFXConfiguration();
@@ -54,6 +55,9 @@ public class CTREConfigs {
         canCoderConfig.absoluteSensorRange = AbsoluteSensorRange.Unsigned_0_to_360;
         canCoderConfig.initializationStrategy = SensorInitializationStrategy.BootToAbsolutePosition;
         canCoderConfig.sensorTimeBase = SensorTimeBase.PerSecond;
+
+   
+        
     }   
     public TalonFXConfiguration getDriveMotorConfig() {
         return driveMotorConfig;

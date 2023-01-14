@@ -8,6 +8,7 @@ public interface GyroIO {
       public boolean connected = false;
       public double positionRad = 0.0;
       public double velocityRadPerSec = 0.0;
+  
     }
   
     public default void updateInputs(GyroIOInputs inputs) {}

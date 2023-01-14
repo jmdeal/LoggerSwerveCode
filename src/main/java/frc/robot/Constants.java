@@ -150,8 +150,8 @@ public final class Constants {
     
         public static final double kPXController = 2;
         public static final double kPYController = 2;
-        public static final double kPThetaController = 2.5;
-        public static final double kDThetaController = 0.1;
+        public static final double kPThetaController = 0.25;
+        public static final double kDThetaController = 0;
     
         // 
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =

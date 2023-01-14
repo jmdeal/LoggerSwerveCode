@@ -26,7 +26,7 @@ public class CurvyAuton extends SequentialCommandGroup {
         var translationController = new PIDController(AutonConstants.kPXController, 0, 0);
         var strafeController = new PIDController(AutonConstants.kPYController, 0, 0);
         var thetaController = new ProfiledPIDController(
-            AutonConstants.kPThetaController, 0, 0, AutonConstants.kThetaControllerConstraints);
+            AutonConstants.kPThetaController, 0, AutonConstants.kDThetaController, AutonConstants.kThetaControllerConstraints);
 
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
@@ -42,7 +42,7 @@ public class CurvyAuton extends SequentialCommandGroup {
             mDrivetrain);
 
         addCommands(new InstantCommand(
-            () -> mDrivetrain.resetOdometry(new Pose2d(1.0, 3.0, Rotation2d.fromDegrees(0)))),
+            () -> mDrivetrain.resetOdometry(new Pose2d(1, 3, Rotation2d.fromDegrees((45+180) % 360)))),
                     mDriveCommand);
     }
 }

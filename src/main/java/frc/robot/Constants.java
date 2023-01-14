@@ -6,7 +6,10 @@ package frc.robot;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
@@ -161,6 +164,20 @@ public final class Constants {
     
     public static final Mode CUR_MODE = Mode.REAL;
     
+    public static final class VisionConstants{
+        public static final Transform3d ROBOT_TO_CAM = new Transform3d(
+                    new Translation3d(Units.inchesToMeters(16), Units.inchesToMeters(-2.3), Units.inchesToMeters(24.75)),
+                    new Rotation3d(0, 0, 0)
+        );
+        public static final String CAMERA_NAME = "gloworm";
+
+    }
+
+    public static final class FieldConstants{ 
+        public static final double FIELD_LENGTH = Units.feetToMeters(54.2708333);
+        public static final double FIELD_WIDTH = Units.feetToMeters(26.291667);
+    }
+
     public static enum Mode {
         REAL, SIM, REPLAY;
     }

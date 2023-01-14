@@ -46,6 +46,7 @@ public class SwerveDrivetrain extends SubsystemBase {
           new LoggedTunableNumber("Drive/TurnKd");
 
 
+    
     public SwerveDrivetrain(GyroIO gyroIO, SwerveModuleIO flModuleIO, SwerveModuleIO frModuleIO,
                             SwerveModuleIO blModuleIO, SwerveModuleIO brModuleIO){
         m_pigeonGyro = new Pigeon2(SwerveDrivetrainConstants.PIGEON_ID);
@@ -129,6 +130,10 @@ public class SwerveDrivetrain extends SubsystemBase {
 
     public void setChassisSpeeds(ChassisSpeeds targetSpeeds) {
         setModuleStates(SwerveDrivetrainConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(targetSpeeds));
+    }
+
+    public void stopSwerve() {
+        drive(new Translation2d(0 ,0), 0, true, true);
     }
 
     public ChassisSpeeds getChassisSpeeds(double vxMetersPerSecond, double vyMetersPerSecond, double omegaRadiansPerSecond, Rotation2d robotAngle) {

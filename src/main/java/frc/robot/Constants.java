@@ -153,8 +153,8 @@ public final class Constants {
     
         public static final double kPXController = 2;
         public static final double kPYController = 2;
-        public static final double kPThetaController = 0.25;
-        public static final double kDThetaController = 0;
+        public static final double kPThetaController = 0.15;
+        public static final double kDThetaController = -0.1;
     
         // 
         public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
@@ -165,10 +165,11 @@ public final class Constants {
     public static final Mode CUR_MODE = Mode.REAL;
     
     public static final class VisionConstants{
-        public static final Transform3d ROBOT_TO_CAM = new Transform3d(
+        public static final Transform3d CAM_TO_ROBOT = new Transform3d(
                     new Translation3d(Units.inchesToMeters(16), Units.inchesToMeters(-2.3), Units.inchesToMeters(24.75)),
-                    new Rotation3d(0, 0, 0)
-        );
+                    new Rotation3d(0, 0, 0));
+        public static final Transform3d ROBOT_TO_CAM = CAM_TO_ROBOT.inverse();
+        
         public static final String CAMERA_NAME = "gloworm";
 
     }

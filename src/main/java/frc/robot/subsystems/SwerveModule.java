@@ -125,8 +125,19 @@ public class SwerveModule {
         return m_driveMotor.getSelectedSensorVelocity();
     }
 
+    
+
+
     public void zeroModule() {
         m_angleMotor.setSelectedSensorPosition(Conversions.degreesToFalcon(m_offset, SwerveDrivetrainConstants.ANGLE_GEAR_RATIO));
+    }
+
+    public double getDriveTemperature(){
+        return m_driveMotor.getTemperature();
+    }
+
+    public double getAngleTemperature() {
+        return m_angleMotor.getTemperature();
     }
 
     public SwerveModulePosition getPosition(){

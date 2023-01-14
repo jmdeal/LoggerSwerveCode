@@ -15,6 +15,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.SwerveDrivetrainConstants;
+import frc.robot.math.Conversions;
 import frc.robot.util.LoggedTunableNumber;
 
 public class SwerveDrivetrain extends SubsystemBase {
@@ -223,8 +224,29 @@ public class SwerveDrivetrain extends SubsystemBase {
 
         Logger.getInstance().recordOutput("Odometry/Robot", m_swerveOdometry.getPoseMeters());
         Logger.getInstance().recordOutput("Yaw/Robot", getAngle());
-        Logger.getInstance().recordOutput("Drive/Module1", m_swerveModules[0].getPosition().distanceMeters);
-         
+        
+        
+        Logger.getInstance().recordOutput("Drive/FLDrivePosition", m_swerveModules[0].getPosition().distanceMeters);
+        Logger.getInstance().recordOutput("Drive/FLDriveVelocity", Conversions.falconToMPS(m_swerveModules[0].getDriveVelocity(), SwerveDrivetrainConstants.WHEEL_CIRCUMFERENCE, SwerveDrivetrainConstants.DRIVE_GEAR_RATIO));
+        Logger.getInstance().recordOutput("Drive/FLDriveTemperature", m_swerveModules[0].getDriveTemperature());
+        // Logger.getInstance().recordOutput("Drive/FLAngleVelocity", Conversions.falconToMPS(m_swerveModules[0].getAngleVl, getNonContinuousGyro(), getAngle()));
+        Logger.getInstance().recordOutput("Drive/FLAngleTemperature", m_swerveModules[0].getAngleTemperature());
+        
+        Logger.getInstance().recordOutput("Drive/FRDrivePosition", m_swerveModules[1].getPosition().distanceMeters);
+        Logger.getInstance().recordOutput("Drive/FRDriveVelocity", Conversions.falconToMPS(m_swerveModules[1].getDriveVelocity(), SwerveDrivetrainConstants.WHEEL_CIRCUMFERENCE, SwerveDrivetrainConstants.DRIVE_GEAR_RATIO));
+        Logger.getInstance().recordOutput("Drive/FRDriveTemperature", m_swerveModules[1].getDriveTemperature());
+        Logger.getInstance().recordOutput("Drive/FRAngleTemperature", m_swerveModules[1].getAngleTemperature());
+        
+        Logger.getInstance().recordOutput("Drive/BLDrivePosition", m_swerveModules[2].getPosition().distanceMeters);
+        Logger.getInstance().recordOutput("Drive/BLDriveVelocity", Conversions.falconToMPS(m_swerveModules[2].getDriveVelocity(), SwerveDrivetrainConstants.WHEEL_CIRCUMFERENCE, SwerveDrivetrainConstants.DRIVE_GEAR_RATIO));
+        Logger.getInstance().recordOutput("Drive/BLDriveTemperature", m_swerveModules[2].getDriveTemperature());
+        Logger.getInstance().recordOutput("Drive/BLAngleTemperature", m_swerveModules[2].getAngleTemperature());
+        
+        Logger.getInstance().recordOutput("Drive/BRDrivePosition", m_swerveModules[3].getPosition().distanceMeters);
+        Logger.getInstance().recordOutput("Drive/BRDriveVelocity", Conversions.falconToMPS(m_swerveModules[3].getDriveVelocity(), SwerveDrivetrainConstants.WHEEL_CIRCUMFERENCE, SwerveDrivetrainConstants.DRIVE_GEAR_RATIO));
+        Logger.getInstance().recordOutput("Drive/BRDriveTemperature", m_swerveModules[3].getDriveTemperature());
+        Logger.getInstance().recordOutput("Drive/BRAngleTemperature", m_swerveModules[3].getAngleTemperature());
+       
         SmartDashboard.putNumber("Yaw", getAngle());
 
         // SmartDashboard.putNumber("pose x", getPose().getX());

@@ -1,13 +1,15 @@
 package frc.robot.commands;
 
+import org.littletonrobotics.junction.Logger;
+
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -15,13 +17,13 @@ import frc.robot.Constants.AutonConstants;
 import frc.robot.Constants.SwerveDrivetrainConstants;
 import frc.robot.subsystems.SwerveDrivetrain;
 
-public class CurvyAuton extends SequentialCommandGroup {
+public class JPathAuton extends SequentialCommandGroup {
     SwerveDrivetrain mDrivetrain;
-    PathPlannerTrajectory curveTraj;
-    public CurvyAuton(SwerveDrivetrain drivetrain) {
+    PathPlannerTrajectory jTraj;
+    public JPathAuton(SwerveDrivetrain drivetrain) {
         mDrivetrain = drivetrain;
 
-        curveTraj = PathPlanner.loadPath("Curvy Auton", AutonConstants.kMaxSpeedMetersPerSecond, AutonConstants.kMaxAccelerationMetersPerSecondSquared);
+        jTraj = PathPlanner.loadPath("j path", AutonConstants.kMaxSpeedMetersPerSecond, AutonConstants.kMaxAccelerationMetersPerSecondSquared);
 
         var translationController = new PIDController(AutonConstants.kPXController, 0, 0);
         var strafeController = new PIDController(AutonConstants.kPYController, 0, 0);
@@ -32,7 +34,7 @@ public class CurvyAuton extends SequentialCommandGroup {
 
         SwerveControllerCommand mDriveCommand = 
         new SwerveControllerCommand(
-            curveTraj, 
+            jTraj, 
             mDrivetrain::getPose, 
             SwerveDrivetrainConstants.SWERVE_DRIVE_KINEMATICS, 
             translationController, 
@@ -42,7 +44,7 @@ public class CurvyAuton extends SequentialCommandGroup {
             mDrivetrain);
 
         addCommands(new InstantCommand(
-            () -> mDrivetrain.resetOdometry(new Pose2d(1, 3, Rotation2d.fromDegrees((45) % 360)))),
+            () -> mDrivetrain.resetOdometry(new Pose2d(1, 3, Rotation2d.fromDegrees((0) % 360)))),
                     mDriveCommand);
     }
 }

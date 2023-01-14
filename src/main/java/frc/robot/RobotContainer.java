@@ -18,6 +18,7 @@ import frc.robot.Constants.JoystickConstants;
 import frc.robot.commands.ChaseTag;
 import frc.robot.commands.CurvyAuton;
 import frc.robot.commands.HardCurveAuton;
+import frc.robot.commands.JPathAuton;
 import frc.robot.commands.StraightAuton;
 import frc.robot.commands.StraightBackAuton;
 import frc.robot.commands.TeleopDrive;
@@ -37,7 +38,7 @@ public class RobotContainer {
 
   private final XboxController m_driverController = new XboxController(JoystickConstants.DRIVER_PORT_ID);
 
-  PhotonCamera camera = new PhotonCamera("gloworm");
+  PhotonCamera camera = new PhotonCamera("OV5647");
   /* Drive Axes */
   private final int m_translationAxis = XboxController.Axis.kLeftY.value;
   private final int m_strafeAxis = XboxController.Axis.kLeftX.value;
@@ -58,7 +59,7 @@ public class RobotContainer {
   private final StraightAuton mStraightAuton = new StraightAuton(m_swerveDrivetrain);
   private final HardCurveAuton mHardCurveAuton = new HardCurveAuton(m_swerveDrivetrain);
   private static LoggedDashboardChooser<Command> mAutonChooser = new LoggedDashboardChooser<Command>("Auto Chooser");;
-  
+  private final JPathAuton mJpathAuton = new JPathAuton(m_swerveDrivetrain);
   public RobotContainer() {
     // Configure the button bindings
     boolean fieldRelative = true;
@@ -93,6 +94,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return mCurvyAuton;
+    return mJpathAuton;
   }
 }

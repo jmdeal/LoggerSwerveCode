@@ -34,8 +34,8 @@ public class TeleopDrive extends CommandBase{
 
     @Override
     public void execute() {
-      double yAxis = -m_driverController.getRawAxis(m_driveAxis);
-      double xAxis = -m_driverController.getRawAxis(m_strafeAxis);
+      double yAxis = m_driverController.getRawAxis(m_driveAxis);
+      double xAxis = m_driverController.getRawAxis(m_strafeAxis);
       double rAxis = m_driverController.getRawAxis(m_rotationAxis);
       
       /* Deadbands */

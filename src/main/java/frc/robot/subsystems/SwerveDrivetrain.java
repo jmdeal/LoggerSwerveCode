@@ -22,6 +22,12 @@ public class SwerveDrivetrain extends SubsystemBase {
     public SwerveDriveOdometry m_swerveOdometry;
     public SwerveModule[] m_swerveModules;
     public Pigeon2 m_pigeonGyro;
+
+    public SwerveModuleState[] setpointState = {
+        new SwerveModuleState(0, Rotation2d.fromDegrees(0)),
+        new SwerveModuleState(0, Rotation2d.fromDegrees(0)),
+        new SwerveModuleState(0, Rotation2d.fromDegrees(0)),
+        new SwerveModuleState(0, Rotation2d.fromDegrees(0))};
     
     private final GyroIO gyroIO;
     private final GyroIOInputsAutoLogged gyroInputs = new GyroIOInputsAutoLogged();
@@ -108,6 +114,7 @@ public class SwerveDrivetrain extends SubsystemBase {
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
         final SwerveModuleState[] swerveModuleStates;
+        
         if (fieldRelative) {
             swerveModuleStates = SwerveDrivetrainConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
                     ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(), translation.getY(), rotation, getYaw())
@@ -123,6 +130,7 @@ public class SwerveDrivetrain extends SubsystemBase {
         for(var module : m_swerveModules){
             module.setDesiredState(swerveModuleStates[module.m_moduleNumber], isOpenLoop);
         }
+        setpointState = swerveModuleStates;
     }
 
     public void setModuleStates(SwerveModuleState[] desiredStates) {
@@ -172,7 +180,7 @@ public class SwerveDrivetrain extends SubsystemBase {
     }
 
     public void resetGyro() {
-        m_pigeonGyro.setYaw(180);
+        m_pigeonGyro.setYaw(0);
     }
 
     public void zeroGyro(double reset) {
@@ -247,6 +255,8 @@ public class SwerveDrivetrain extends SubsystemBase {
         Logger.getInstance().recordOutput("Drive/BRDriveTemperature", m_swerveModules[3].getDriveTemperature());
         Logger.getInstance().recordOutput("Drive/BRAngleTemperature", m_swerveModules[3].getAngleTemperature());
        
+        Logger.getInstance().recordOutput("Drive/RealStates", getStates());
+        Logger.getInstance().recordOutput("Drive/SetpointStates", setpointState);
         SmartDashboard.putNumber("Yaw", getAngle());
 
         // SmartDashboard.putNumber("pose x", getPose().getX());

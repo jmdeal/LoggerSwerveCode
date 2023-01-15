@@ -42,7 +42,7 @@ public class CurvyAuton extends SequentialCommandGroup {
             mDrivetrain);
 
         addCommands(new InstantCommand(
-            () -> mDrivetrain.resetOdometry(new Pose2d(1, 3, Rotation2d.fromDegrees((45) % 360)))),
-                    mDriveCommand);
+            () -> mDrivetrain.resetOdometry(curveTraj.getInitialHolonomicPose())),
+                    mDriveCommand)  ;
     }
 }

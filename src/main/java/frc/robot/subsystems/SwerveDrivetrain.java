@@ -5,6 +5,7 @@ import org.littletonrobotics.junction.Logger;
 import com.ctre.phoenix.sensors.Pigeon2;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -14,6 +15,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.DriveModes;
 import frc.robot.Constants.SwerveDrivetrainConstants;
 import frc.robot.math.Conversions;
 import frc.robot.util.LoggedTunableNumber;
@@ -22,6 +24,7 @@ public class SwerveDrivetrain extends SubsystemBase {
     public SwerveDriveOdometry m_swerveOdometry;
     public SwerveModule[] m_swerveModules;
     public Pigeon2 m_pigeonGyro;
+    public DriveModes currDriveMode;
 
     public SwerveModuleState[] setpointState = {
         new SwerveModuleState(0, Rotation2d.fromDegrees(0)),
@@ -109,6 +112,7 @@ public class SwerveDrivetrain extends SubsystemBase {
             ),
         };
 
+        currDriveMode = DriveModes.NORMAL;
         m_swerveOdometry = new SwerveDriveOdometry(SwerveDrivetrainConstants.SWERVE_DRIVE_KINEMATICS, getYaw(), getModulePositions());
     }
 
@@ -122,6 +126,29 @@ public class SwerveDrivetrain extends SubsystemBase {
         } else {
             swerveModuleStates = SwerveDrivetrainConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
                     new ChassisSpeeds(translation.getX(), translation.getY(), rotation)
+            );
+        }
+
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, SwerveDrivetrainConstants.MAX_SPEED);
+
+        for(var module : m_swerveModules){
+            module.setDesiredState(swerveModuleStates[module.m_moduleNumber], isOpenLoop);
+        }
+        setpointState = swerveModuleStates;
+    }
+
+    public void driveCustomCenterOfRotation(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
+        final SwerveModuleState[] swerveModuleStates;
+        
+        if (fieldRelative) {
+            swerveModuleStates = SwerveDrivetrainConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
+                    ChassisSpeeds.fromFieldRelativeSpeeds(translation.getX(), translation.getY(), rotation, getYaw()), 
+                    new Translation2d(SwerveDrivetrainConstants.DRIVETRAIN_ACTUAL_LENGTH/2.0, 0)
+            );
+        } else {
+            swerveModuleStates = SwerveDrivetrainConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
+                    new ChassisSpeeds(translation.getX(), translation.getY(), rotation),
+                    new Translation2d(SwerveDrivetrainConstants.DRIVETRAIN_ACTUAL_LENGTH/2.0, 0)
             );
         }
 
@@ -151,6 +178,24 @@ public class SwerveDrivetrain extends SubsystemBase {
 
     public ChassisSpeeds getChassisSpeeds(double vxMetersPerSecond, double vyMetersPerSecond, double omegaRadiansPerSecond, Rotation2d robotAngle) {
         return ChassisSpeeds.fromFieldRelativeSpeeds(vxMetersPerSecond, vyMetersPerSecond, omegaRadiansPerSecond, robotAngle);
+    }
+
+    public boolean getIsNormalDriveMode() { 
+        if(currDriveMode == DriveModes.NORMAL) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public void changeDriveMode() {
+       if(currDriveMode == DriveModes.NORMAL) {
+        currDriveMode = DriveModes.CUSTOM_ROTATE;
+       }
+       else {
+        currDriveMode = DriveModes.NORMAL;
+       }
     }
 
     public Pose2d getPose() {
@@ -230,7 +275,8 @@ public class SwerveDrivetrain extends SubsystemBase {
         //         moduleInputs[i]);
         // }
 
-        Logger.getInstance().recordOutput("Odometry/Robot", m_swerveOdometry.getPoseMeters());
+        Logger.getInstance().recordOutput("Odometry/RobotPose2d", m_swerveOdometry.getPoseMeters());
+        Logger.getInstance().recordOutput("Odometry/RobotPose3d", new Pose3d(m_swerveOdometry.getPoseMeters()));
         Logger.getInstance().recordOutput("Yaw/Robot", getAngle());
         
         

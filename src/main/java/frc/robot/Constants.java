@@ -127,6 +127,7 @@ public final class Constants {
         /*Swerve Kinematics Constants*/
         public static final double DRIVETRAIN_WIDTH = Units.inchesToMeters(26.25);
         public static final double DRIVETRAIN_LENGTH = Units.inchesToMeters(26.25);
+        public static final double DRIVETRAIN_ACTUAL_LENGTH = Units.inchesToMeters(28.0);
         public static final double WHEEL_DIAMETER = Units.inchesToMeters(4);
         public static final double WHEEL_CIRCUMFERENCE = (WHEEL_DIAMETER  * Math.PI);
 
@@ -143,6 +144,10 @@ public final class Constants {
 
     public static final class LoggingConstants {
         public static final boolean tuningMode = false;
+    }
+
+    public static enum DriveModes {
+        CUSTOM_ROTATE, NORMAL
     }
 
     public static final class AutonConstants {

@@ -21,6 +21,7 @@ import frc.robot.commands.autos.JPathAuton;
 import frc.robot.commands.autos.StraightAuton;
 import frc.robot.commands.autos.StraightBackAuton;
 import frc.robot.commands.vision.ChaseTag;
+import frc.robot.commands.TeleopCustonRotationDrive;
 import frc.robot.commands.TeleopDrive;
 import frc.robot.subsystems.GyroIO;
 import frc.robot.subsystems.SwerveDrivetrain;
@@ -38,6 +39,9 @@ public class RobotContainer {
 
   private final XboxController m_driverController = new XboxController(JoystickConstants.DRIVER_PORT_ID);
 
+  boolean fieldRelative = true;
+  boolean openLoop = false;
+
   PhotonCamera camera = new PhotonCamera("OV5647");
   /* Drive Axes */
   private final int m_translationAxis = XboxController.Axis.kLeftY.value;
@@ -47,7 +51,7 @@ public class RobotContainer {
   private final JoystickButton m_zeroGyro = new JoystickButton(m_driverController, XboxController.Button.kY.value);
   private final JoystickButton m_zeroMods = new JoystickButton(m_driverController, XboxController.Button.kX.value);
   private final JoystickButton m_trackAprilTag = new JoystickButton(m_driverController, XboxController.Button.kLeftBumper.value);
- 
+  private final JoystickButton m_switchRotationMode = new JoystickButton(m_driverController,  XboxController.Button.kRightBumper.value);
   
   private final SwerveDrivetrain m_swerveDrivetrain = new SwerveDrivetrain(
     new GyroIO() {}, new SwerveModuleIO() {}, new SwerveModuleIO() {}, new SwerveModuleIO(){}, new SwerveModuleIO(){});
@@ -62,9 +66,8 @@ public class RobotContainer {
   private final JPathAuton mJpathAuton = new JPathAuton(m_swerveDrivetrain);
   public RobotContainer() {
     // Configure the button bindings
-    boolean fieldRelative = true;
-    boolean openLoop = false;
-    m_swerveDrivetrain.setDefaultCommand(new TeleopDrive(m_swerveDrivetrain, 
+   
+    m_swerveDrivetrain.setDefaultCommand(new TeleopCustonRotationDrive(m_swerveDrivetrain, 
       m_driverController, m_translationAxis, m_strafeAxis, m_rotationAxis, fieldRelative, openLoop));
     
     mAutonChooser.addDefaultOption("Curvy Default Path", mCurvyAuton);
@@ -84,6 +87,11 @@ public class RobotContainer {
   private void configureButtonBindings() {
     m_zeroGyro.onTrue(new InstantCommand(() -> m_swerveDrivetrain.resetGyro()));
     m_trackAprilTag.whileTrue(mChaseTag);
+    
+    // m_switchRotationMode.onTrue(new TeleopCustonRotationDrive(m_swerveDrivetrain, m_driverController, 
+    //                             m_translationAxis, m_strafeAxis, 
+    //                         m_rotationAxis, fieldRelative, openLoop));
+    
     //m_zeroMods.whenPressed(new InstantCommand(() -> m_swerveDrivetrain.zeroModules()));
   }
 
